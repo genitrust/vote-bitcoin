@@ -1,0 +1,4 @@
+Django==1.8.4
+argparse==1.2.1
+-e git+https://github.com/richardkiss/pycoin.git@2dcfaf5a4679f580fecb9ac72d33f40b4b066549#egg=pycoin-dev
+wsgiref==0.1.2
