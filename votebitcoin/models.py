@@ -32,6 +32,8 @@ class VotingCard(models.Model):
     publicKey = models.CharField(max_length=35, unique=True)
     privateKey = models.CharField(max_length=52, null=True, blank=True,
         default=None)
+    candidate = models.ForeignKey(Candidate, null=True, blank=True,
+        default=None)
 
     def used(self):
         return bool(privateKey)
