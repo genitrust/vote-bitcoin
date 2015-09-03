@@ -34,5 +34,5 @@ class VotingCard(models.Model):
 
     createdOn = models.DateTimeField(auto_now_add=True)
     expiresOn = models.DateTimeField(null=True)
-    publicKey = models.CharField(max_length=35)
+    publicKey = models.CharField(max_length=35, unique=True)
     used = models.BooleanField(default=False)
