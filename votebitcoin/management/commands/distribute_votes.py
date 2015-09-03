@@ -23,7 +23,12 @@ class Command(BaseCommand):
         make_option('--change', dest='change',
             help='Change address to send the remaining voting credits.'),
     )
-
+    
+    def scrapAddresses(htmlFile):
+	soup = BeautifulSoup(open(htmlFile), 'html.parser')
+	addresses = soup.findAll('div', {'class': 'btcaddress'})
+        return [x.string for x in addresses]
+    
     def handle(self, *args, **options):
         self.stdout.write('html: %s' % options['html'].split(','))
         self.stdout.write('input: %s' % options['input'])
@@ -42,8 +47,8 @@ class Command(BaseCommand):
         for htmlFile in htmlFiles:
             # TODO: use a function here to scrape the stuff.
             # this function should return a list of bitcoin addresses!!!
-            #btcAddresses += thatFunction(htmlFile)
-            pass
+            btcAddresses += scrapAddresses(htmlFile)
+            #pass
 
         # STEP 2: build the transaction with all bitcoin addresses as the
         # transaction outputs.
@@ -65,10 +70,17 @@ class Command(BaseCommand):
         self.stdout.write('Command for building the transaction: {}'.format(
             ' '.join(line)
         ))
+	tresult = subprocess.Popen(line, shell=False, stdout=subprocess.PIPE)
 
         # STEP 4: sign the transaction, with the output going directly to
         # standard output.
         signedTxFile = unsignedTxFile.replace('unsigned', 'signed')
+	line.pop()
         line = ['tx', unsignedTxFile, '-f', signingWif]
         # TODO: send the 'line' to the system command line, and allow the output
         # to be displayed on the screen.
+	result = []
+        result = subprocess.Popen(line, shell=False, stdout=subprocess.PIPE)
+        with result.stdout as f:
+            output = f.read()
+        return output
