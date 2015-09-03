@@ -1,5 +1,14 @@
 Django==1.8.4
+Electrum==2.4.4
 argparse==1.2.1
 beautifulsoup4==4.4.0
+dnspython==1.12.0
+ecdsa==0.13
+pbkdf2==1.3
+protobuf==2.6.1
 -e git+https://github.com/richardkiss/pycoin.git@2dcfaf5a4679f580fecb9ac72d33f40b4b066549#egg=pycoin-dev
+qrcode==5.1
+requests==2.7.0
+six==1.9.0
+slowaes==0.1a1
 wsgiref==0.1.2
