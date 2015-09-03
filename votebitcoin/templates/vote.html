@@ -13,10 +13,8 @@
         The Genitrust Note is your voting card. You need this to redeem your
         credit to vote for the Battle of the Bands! This is what the Genitrust
         Note looks like:
-        <br/>
-        <br/>
-        <img src="{% static 'img/note-example.jpg' %}" alt="Genitrust Note Example" />
     </p>
+    <p><img src="{% static 'img/note-example.jpg' %}" alt="Genitrust Note Example" /></p>
 
     <p>
         <button id="btnStart" type="button"
@@ -25,7 +23,7 @@
 
 </div>
 
-<div id="voteRedeem">
+<div id="votePreRedeem">
     <h4>Step 1: Scan Your Voting Card.</h4>
 
     <p>
@@ -37,9 +35,19 @@
         <button id="btnStartScan" type="button"
             class="btn btn-primary btn-lg">I Understand! &raquo;</button>
     </p>
+</div>
 
+<div id="voteRedeem">
+    <h4>Step 1: Scan "Redeem Bitcoin"</h4>
+    <p><img src="{% static 'img/annotated-example.jpg' %}" alt="Annotated Example" /></p>
 
-	 <div class="container">
+    <p>
+        Point your camera at square bar code located above &quot;Redeem Bitcoin&quot;.
+        This is at the bottom-right of the Genitrust Note. If you're not using your
+        phone, then show this square bar code to the camera.
+    </p>
+
+	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
 				<h1>Cheese QR</h1>
@@ -74,6 +82,28 @@ sayCheese.start();
 
     <h4></h4>
 </div>
+
+<div>
+    <h4>Step 2: Vote!</h4>
+
+    <p>Who has earned your respect?</p>
+
+    <form method="post" action="{% url 'submit-vote' %}">
+    <input id="candidateVote" name="candidateVote" value="" type="hidden" />
+
+    {% for candidate in candidates %}
+    <p>
+        <button type="button"
+            class="btnCandidateVote btn btn-default btn-lg"
+            value="{{ candidate.publicKey }}">{{ candidate.name }}
+        </button>
+    </p>
+    {% endfor %}
+    </form>
+</div>
+
+
+
 {% endblock %}
 
 {% block javascript %}

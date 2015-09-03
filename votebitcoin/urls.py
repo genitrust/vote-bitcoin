@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'votebitcoin.views.vote'),
-    url(r'^submit$', 'votebitcoin.views.submit'),
+    url(r'^submit$', 'votebitcoin.views.submit', name='submit-vote'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
