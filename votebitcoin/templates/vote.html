@@ -23,7 +23,7 @@
 
 </div>
 
-<div id="votePreRedeem">
+<div id="votePreRedeem" style="display:none;">
     <h4>Step 1: Scan Your Voting Card.</h4>
 
     <p>
@@ -38,7 +38,7 @@
     </p>
 </div>
 
-<div id="voteRedeem">
+<div id="voteRedeem" style="display:none;">
     <h4>Step 1: Scan "Redeem Bitcoin"</h4>
     <p><img src="{% static 'img/annotated-example.jpg' %}" alt="Annotated Example" /></p>
 
@@ -48,42 +48,63 @@
         phone, then show this square bar code to the camera.
     </p>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="boxWrapper auto">
-                <div id="hiddenImg"></div>
-                <div id="qrContent" class="alert alert-info" role="alert">
-                    <p>No Redeem Bitcoin Bar Code in sight :(</p>
+    <div id="videoPanel">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="boxWrapper auto">
+                    <div id="hiddenImg"></div>
+                    <div id="qrContent" class="alert alert-info" role="alert">
+                        <p>No Redeem Bitcoin Bar Code in sight :(</p>
+                    </div>
                 </div>
-            </div>
 
-            <div id="videoPreview" class="thumbnail embed-responsive embed-responsive-4by3"></div>
+                <div id="videoPreview" class="thumbnail embed-responsive embed-responsive-4by3"></div>
+            </div>
         </div>
+
+        <h4>Having Trouble?</h4>
     </div>
 
-    <h4>Having Trouble?</h4>
+    <div id="picturePanel" style="display:none;">
+        <h4>Actually... You must take a picture.</h4>
+        <p>
+            Because of technical reasons, you need
+            to take a picture of the Redeem Bitcoin square bar code.
+        </p>
+        <p>
+            <button class="btnTakePicture btn btn-primary btn-lg"
+                type="button">Take Picture &raquo;</button>
+        </p>
+    </div>
 
 </div>
 
-<div id="noVideo">
-    <h4>(This div will always show, but the above div will disappear if an error is determined.)</h4>
+<div id="noVideoHelp" style="display:none;">
+    <h4>(This div will always show once voteRedeem has been displayed, but the above div will disappear if an error is determined.)</h4>
 
-    <p>You can also <a href="">take a picture</a> with your phone instead.</p>
+    <p>You can also <a href="#" class="btnTakePicture">take a picture</a> with your phone instead.</p>
 
     <p>
-        <button id="btnTakePicture" type="button"
-            class="btn btn-primary btn-lg">Take Picture &raquo;</button>
+        <button class="btnTakePicture btn btn-primary btn-lg"
+            type="button">Take Picture &raquo;</button>
     </p>
 </div>
 
-<div>
+<div id="votePanel" style="display:none;">
     <h4>Step 2: Vote!</h4>
 
-    <p>Who has earned your respect?</p>
+    <p>Who earned your respect?</p>
 
-    <form method="post" action="{% url 'submit-vote' %}">
+    <form id="voteForm" method="post" action="{% url 'submit-vote' %}">
+    {% csrf_token %}
     <input id="voterWif" name="voterWif" value="" type="hidden" />
-    <input id="candidateVote" name="candidateVote" value="" type="hidden" />
+
+    {# optional qr picture #}
+    {% comment %}
+    <input id="cameraInput" name="cameraInput" type="file" capture="camera"
+        accept="image/*" style="display:none;" />
+    {% endcomment %}
+    <input id="cameraInput" name="cameraInput" type="file" accept="image/*;capture=camera" style="display:none;" />
 
     {% for candidate in candidates %}
     <p>
@@ -93,6 +114,14 @@
         </button>
     </p>
     {% endfor %}
+
+    <input id="candidateVote" name="candidateVote" value="" type="hidden" />
+    <div id="voteSubmitCtn">
+    <p>
+        <button id="voteSubmit" type="button"
+            class="btn btn-success btn-lg">Vote &raquo;</button>
+    </p>
+    </div>
     </form>
 </div>
 

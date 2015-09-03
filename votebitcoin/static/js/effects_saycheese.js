@@ -1,9 +1,12 @@
 var initSayCheese = function() {
 	var scanner = new SayCheese('#videoPreview', {audio: false});
 
-	scanner.on('error', function(error) {
-		$('#videoPreview').html('<p>Your browser does not support this plugin.</p>');
-	});
+    scanner.on('error', function(error) {
+        $('#videoPanel').hide();
+        $('#noVideoHelp').hide();
+        $('#picturePanel').show();
+//        $('#videoPreview').html('<p>Your browser does not support this plugin.</p>');
+    });
 
 	scanner.on('snapshot', function(snapshot) {
 		qrCodeDecoder(snapshot.toDataURL());
@@ -40,6 +43,7 @@ function showInfo(data) {
             $('#voterWif').val(data);
             // TODO: move onto the next steps...
             $("#qrContent p").html(data);
+            VoteBitcoin.grabbedScan();
         }
         else {
             $('#qrContent p').html("Not that bar code! The other one!");
