@@ -1,9 +1,79 @@
 {% extends '__base.html' %}
+{% load staticfiles %}
 
 {% block title %}Submit Your Vote!{% endblock %}
 
 {% block content %}
-<p>testing.</p>
+<h1>Submit Your Vote!</h1>
+
+<div id="voteIntro">
+    <h4>Prepare Your Genitrust Note!</h4>
+
+    <p>
+        The Genitrust Note is your voting card. You need this to redeem your
+        credit to vote for the Battle of the Bands! This is what the Genitrust
+        Note looks like:
+        <br/>
+        <br/>
+        <img src="{% static 'img/note-example.jpg' %}" alt="Genitrust Note Example" />
+    </p>
+
+    <p>
+        <button id="btnStart" type="button"
+            class="btn btn-primary btn-lg">I'm Ready &raquo;</button>
+    </p>
+
+</div>
+
+<div id="voteRedeem">
+    <h4>Step 1: Scan Your Voting Card.</h4>
+
+    <p>
+        In order to scan your voting card, you will need to give us permission
+        to access the camera on your phone / device.
+    </p>
+
+    <p>
+        <button id="btnStartScan" type="button"
+            class="btn btn-primary btn-lg">I Understand! &raquo;</button>
+    </p>
+
+
+	 <div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Cheese QR</h1>
+				<p class="lead">Minimal QR Code Scanner using saycheese.js and jsqrcode</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div id="example" class="thumbnail embed-responsive embed-responsive-4by3"></div>
+				<div class="boxWrapper auto">
+					<div id="hiddenImg"></div>
+					<div id="qrContent" class="alert alert-info" role="alert">
+						<p>No QR Code in sight.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+<pre>
+sayCheese.on('success', function() {
+	scanCode(sayCheese);
+});
+
+sayCheese.start();
+</pre>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="voteRedeemApple">
+    <h1></h1>
+
+    <h4></h4>
+</div>
 {% endblock %}
 
 {% block javascript %}
