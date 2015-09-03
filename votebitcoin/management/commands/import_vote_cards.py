@@ -20,7 +20,7 @@ class Command(BaseCommand):
         alladdresses = soup.findAll('div', {'class':'btcaddress'})
         for address in alladdresses:
             v = VotingCard()
-            v.publicKey = address
+            v.publicKey = address.string
             v.expiresOn = None
             v.save()
             self.stdout.write('Successfully imported Voting Card "%s"' % address)
