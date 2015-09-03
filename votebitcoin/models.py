@@ -8,19 +8,14 @@ class Candidate(models.Model):
 
     name = models.CharField(max_length=32)
     active = models.BooleanField(default=True)
+    publicKey = models.CharField(max_length=35, unique=True,
+        help_text='Should be unused.')
 
     def __unicode__(self):
         msg = self.name
         if not self.active:
             msg += ' (inactive)'
         return msg
-
-    def publicKey(self):
-        '''
-        This is where coins must be sent to the candidate in order for the
-        candidate to be considered voted for.
-        '''
-        pass
 
 
 class VotingCard(models.Model):
