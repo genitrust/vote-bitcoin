@@ -28,7 +28,8 @@
 
     <p>
         In order to scan your voting card, you will need to give us permission
-        to access the camera on your phone / device.
+        to access the camera on your phone / device. After you click &quot;I
+        Understand&quot;, your browser will ask, and you will click &quot;Allow&quot;.
     </p>
 
     <p>
@@ -59,12 +60,20 @@
             <div id="videoPreview" class="thumbnail embed-responsive embed-responsive-4by3"></div>
         </div>
     </div>
+
+    <h4>Having Trouble?</h4>
+
 </div>
 
-<div id="voteRedeemApple">
-    <h1></h1>
+<div id="noVideo">
+    <h4>(This div will always show, but the above div will disappear if an error is determined.)</h4>
 
-    <h4></h4>
+    <p>You can also <a href="">take a picture</a> with your phone instead.</p>
+
+    <p>
+        <button id="btnTakePicture" type="button"
+            class="btn btn-primary btn-lg">Take Picture &raquo;</button>
+    </p>
 </div>
 
 <div>
@@ -86,8 +95,6 @@
     {% endfor %}
     </form>
 </div>
-
-
 
 {% endblock %}
 
