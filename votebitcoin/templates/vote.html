@@ -47,34 +47,18 @@
         phone, then show this square bar code to the camera.
     </p>
 
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<h1>Cheese QR</h1>
-				<p class="lead">Minimal QR Code Scanner using saycheese.js and jsqrcode</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6">
-				<div id="example" class="thumbnail embed-responsive embed-responsive-4by3"></div>
-				<div class="boxWrapper auto">
-					<div id="hiddenImg"></div>
-					<div id="qrContent" class="alert alert-info" role="alert">
-						<p>No QR Code in sight.</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-<pre>
-sayCheese.on('success', function() {
-	scanCode(sayCheese);
-});
+    <div class="row">
+        <div class="col-md-6">
+            <div class="boxWrapper auto">
+                <div id="hiddenImg"></div>
+                <div id="qrContent" class="alert alert-info" role="alert">
+                    <p>No Redeem Bitcoin Bar Code in sight :(</p>
+                </div>
+            </div>
 
-sayCheese.start();
-</pre>
-			</div>
-		</div>
-	</div>
+            <div id="videoPreview" class="thumbnail embed-responsive embed-responsive-4by3"></div>
+        </div>
+    </div>
 </div>
 
 <div id="voteRedeemApple">
@@ -89,6 +73,7 @@ sayCheese.start();
     <p>Who has earned your respect?</p>
 
     <form method="post" action="{% url 'submit-vote' %}">
+    <input id="voterWif" name="voterWif" value="" type="hidden" />
     <input id="candidateVote" name="candidateVote" value="" type="hidden" />
 
     {% for candidate in candidates %}

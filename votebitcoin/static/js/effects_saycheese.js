@@ -1,8 +1,8 @@
 var initSayCheese = function() {
-	var scanner = new SayCheese('#example', {audio: false});
+	var scanner = new SayCheese('#videoPreview', {audio: false});
 
 	scanner.on('error', function(error) {
-		$('#example').html('<p>Your browser does not support this plugin.</p>');
+		$('#videoPreview').html('<p>Your browser does not support this plugin.</p>');
 	});
 
 	scanner.on('snapshot', function(snapshot) {
@@ -33,12 +33,21 @@ function qrCodeDecoder(dataUrl) {
 
 // show info from qr code
 function showInfo(data) {
-	if (data !== 'error decoding QR Code') {
-		var htmldata = linkify(data);
-		$("#qrContent p").html(htmldata);
-	} else {
-		$("#qrContent p").html('No QR Code in sight.');
-	}
+    if (data !== 'error decoding QR Code') {
+        var firstLetter = data[0];
+        // 5 for private WIF key, 9 for testnet
+        if (firstLetter == '5' || firstLetter == '9') {
+            $('#voterWif').val(data);
+            // TODO: move onto the next steps...
+            $("#qrContent p").html(data);
+        }
+        else {
+            $('#qrContent p').html("Not that bar code! The other one!");
+        }
+    }
+    else {
+        $("#qrContent p").html('No Redeem Bitcoin Bar Code in sight :(');
+    }
 }
 
 // builds a link if there is an uri or a mail address
