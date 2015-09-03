@@ -3,4 +3,7 @@ from votebitcoin.models import Candidate
 from votebitcoin.models import VotingCard
 
 admin.site.register(Candidate)
-admin.site.register(VotingCard)
+
+@admin.register(VotingCard)
+class VotingCardAdmin(admin.ModelAdmin):
+    search_fields = ['publicKey']

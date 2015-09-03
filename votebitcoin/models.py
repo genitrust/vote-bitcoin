@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Candidate(models.Model):
     '''
     The candidate to receive votes. Candidates cannot receive a vote if the
@@ -35,5 +36,11 @@ class VotingCard(models.Model):
     candidate = models.ForeignKey(Candidate, null=True, blank=True,
         default=None)
 
+    def __unicode__(self):
+        msg = 'Voting Card: %s' % self.publicKey
+        if self.used():
+            msg += ' (redeemed)'
+        return msg
+
     def used(self):
-        return bool(privateKey)
+        return bool(self.privateKey)

@@ -2,7 +2,11 @@ from optparse import make_option
 from bs4 import BeautifulSoup
 
 from django.core.management.base import BaseCommand, CommandError
+from django.db.utils import IntegrityError
+
 from votebitcoin.models import VotingCard
+from votebitcoin.management.commands.distribute_votes import scrapeAddresses
+
 
 class Command(BaseCommand):
     help = 'Imports voting cards from the Genitrust Note HTML document.'
@@ -13,14 +17,17 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
-#        soup = BeautifulSoup(open("notes_101-200.html"))
-        self.stdout.write('you supplied the html option: %s' % options['html'])
-        soup = BeautifulSoup(open(options['html']),"html.parser")
-
-        alladdresses = soup.findAll('div', {'class':'btcaddress'})
+        alladdresses = scrapeAddresses(options['html'])
+        count = 0
         for address in alladdresses:
             v = VotingCard()
             v.publicKey = address.string
             v.expiresOn = None
-            v.save()
-            self.stdout.write('Successfully imported Voting Card "%s"' % address)
+            try:
+                v.save()
+                count += 1
+                self.stdout.write('Successfully imported Voting Card "%s"' % address)
+            except IntegrityError:
+                self.stdout.write('Ignoring Voting Card "%s"; '
+                    'already imported!' % address)
+        self.stdout.write('*** Imported a total of %d cards.' % count)
