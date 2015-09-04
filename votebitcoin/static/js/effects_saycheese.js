@@ -26,7 +26,7 @@ function scanCode(scanner) {
 	scanner.takeSnapshot();	
 	setTimeout(function() {
 		scanCode(scanner);
-	}, 1000);
+	}, 500);
 }
 
 // decode the img
