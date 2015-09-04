@@ -11,6 +11,7 @@ def scrapeAddresses(htmlFile):
     addresses = soup.findAll('div', {'class': 'btcaddress'})
     return [x.string for x in addresses]
 
+
 class Command(BaseCommand):
     help = 'Outputs the signed transaction hex for broadcasting ' + \
         '(distributing) coins to all Vote Cards.'
