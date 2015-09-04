@@ -6,6 +6,6 @@ var bitcoinjs = {
   Buffer: require('buffer')
 }
 
-module.exports = foobar
+module.exports = bitcoinjs;
 
 // compile with: browserify bitcoinjs-lib-node.js -s bitcoinjs > bitcoinjs-lib.min.js
