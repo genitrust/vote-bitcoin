@@ -1,0 +1,20 @@
+{% extends '__base.html' %}
+
+{% block title %}Voting Results{% endblock %}
+
+{% block content %}
+<h1>Voting Results</h1>
+
+<div>
+    <h4>Voting Cards used to vote:</h4>
+    <p>Total Votes: {{ votes.count }}</p>
+    <p>Total Voting Cards: {{ totalVotingCards }}</p>
+
+    <br/>
+
+    <h4>Summary of Candidate Votes:</h4>
+    {% for candidate in candidates %}
+    <p>{{ candidate.name }}: {{ candidate.votes }}</p>
+    {% endfor %}
+</div>
+{% endblock %}

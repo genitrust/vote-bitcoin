@@ -87,6 +87,14 @@ def broadcast(signedHex):
     return broadcastResult == 'Transaction Submitted'
 
 
+def results(request):
+    return render(request, 'results.html', {
+        'votes': VotingCard.objects.all().exclude(privateKey=None),
+        'totalVotingCards': VotingCard.objects.all().count(),
+        'candidates': Candidate.objects.filter(active=True),
+    })
+
+
 def submit(request):
     p = request.POST
     wif = p.get('voterWif', None)

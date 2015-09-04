@@ -18,6 +18,14 @@ class Candidate(models.Model):
             msg += ' (inactive)'
         return msg
 
+    def votes(self):
+        '''
+        The number of votes received by the candidate.
+
+        ...according to the local database :)
+        '''
+        return VotingCard.objects.filter(candidate=self).count()
+
 
 class VotingCard(models.Model):
     '''

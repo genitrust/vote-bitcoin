@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'votebitcoin.views.vote', name='vote'),
+    url(r'^results_$', 'votebitcoin.views.results', name='results'),
     url(r'^submit$', 'votebitcoin.views.submit', name='submit-vote'),
 ]
 
