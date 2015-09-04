@@ -7,6 +7,7 @@ var initSayCheese = function() {
     scanner.on('error', function(error) {
         $('#videoPanel').hide();
         $('#noVideoHelp').hide();
+        $('#voteRedeem').hide();
         $('#picturePanel').show();
 //        $('#videoPreview').html('<p>Your browser does not support this plugin.</p>');
     });
@@ -34,7 +35,7 @@ function scanCode(scanner) {
 
 // decode the img
 function qrCodeDecoder(dataUrl) {
-	qrcode.decode(dataUrl);
+    qrcode.decode(dataUrl);
 }
 
 // show info from qr code
@@ -47,7 +48,7 @@ function showInfo(data) {
             try {
                 bitcoinjs.base58.decode(data);
                 $('#voterWif').val(data);
-                VoteBitcoin.grabbedScan();
+                VoteBitcoin.obtainedQr();
 
                 if (scanTimer !== null) {
                     clearTimeout(scanTimer);
@@ -57,8 +58,6 @@ function showInfo(data) {
                 }
             }
             catch(err) {
-                console.log('holy shit we found a bad one!!!', data);
-                $('#qrContent p').html('Wow! We got something incorrect...', data);
             }
         }
         else {

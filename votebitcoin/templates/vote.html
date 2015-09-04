@@ -64,24 +64,28 @@
 
         <h4>Having Trouble?</h4>
     </div>
+</div>
 
-    <div id="picturePanel" style="display:none;">
-        <h4>Actually... You must take a picture.</h4>
-        <p>
-            Because of technical reasons, you need
-            to take a picture of the Redeem Bitcoin square bar code.
-        </p>
-        <p>
-            <button class="btnTakePicture btn btn-primary btn-lg"
-                type="button">Take Picture &raquo;</button>
-        </p>
+<div id="picturePanel" style="display:none;">
+    <h4>Actually... You must take a picture.</h4>
+    <p>
+        Because of technical reasons, you need
+        to take a picture of the Redeem Bitcoin square bar code.
+    </p>
+
+    <div id="takePictureAlert" style="display:none;">
+        <div class="alert alert-info" role="alert">
+            <p></p>
+        </div>
     </div>
 
+    <p>
+        <button class="btnTakePicture btn btn-primary btn-lg"
+            type="button">Take Picture &raquo;</button>
+    </p>
 </div>
 
 <div id="noVideoHelp" style="display:none;">
-    <h4>(This div will always show once voteRedeem has been displayed, but the above div will disappear if an error is determined.)</h4>
-
     <p>You can also <a href="#" class="btnTakePicture">take a picture</a> with your phone instead.</p>
 
     <p>
