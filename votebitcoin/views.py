@@ -25,6 +25,10 @@ class AddressEmpty(Exception):
     pass
 
 
+class BlockChainDown(Exception):
+    pass
+
+
 def auditAddress(address):
     '''
     Audits to see whether or not the address has ever been used for sending
@@ -58,6 +62,31 @@ def auditAddress(address):
         raise AddressEmpty()
 
 
+def broadcast(signedHex):
+    '''
+    Broadcasts the signed transaction hex, returning True if the broadcast
+    result was positive (successful).
+
+    @param   string
+    @return  bool
+    '''
+    try:
+        r = requests.post(
+            'https://blockchain.info/pushtx?api_code={}'
+            .format(settings.BLOCKCHAIN_API_CODE),
+            {
+                'tx': signedHex,
+                'api_code': settings.BLOCKCHAIN_API_CODE
+            },
+            verify=False
+        )
+    except:
+        raise BlockChainDown()
+
+    broadcastResult = r.text.strip()[:512]
+    return broadcastResult == 'Transaction Submitted'
+
+
 def submit(request):
     p = request.POST
     wif = p.get('voterWif', None)
@@ -65,8 +94,6 @@ def submit(request):
 
     # Step 0: validate that both parameters were sent.
     if not wif or not candidateKey:
-        print 'wif:', wif
-        print 'candidateKey:', candidateKey
         return render(request, 'voting-invalid.html')
 
     # Step 1: convert wif to voting card's public key
@@ -88,13 +115,13 @@ def submit(request):
         # at this point, if there's a ValueError, then no JSON object was
         # able to be decoded. Block chain must be down, or somehow an invalid
         # bitcoin address was used.
-        return render(request, 'voting-try-again.html')
+        return render(request, 'voting-invalid.html')
     except AddressEmpty:
         # whoops! somewhere, somebody forgot to distribute coins to this card!
         return render(request, 'vote-card-not-activated.html')
     except AddressPreviouslySpent:
         # this voting card is invalid...since the voting credit was removed!
-        return render(request, 'voting-invalid.html')
+        return render(request, 'vote-card-already-used.html')
 
     # Step 3: create, sign, and broadcast the transaction
     environment = (
@@ -111,28 +138,17 @@ def submit(request):
         candidateKey,
     )
     line = ['tx', '-F', '5000', '-i', pk, candidateKey, '-o', unsignedFile]
-    print 'create tx line:', ' '.join(line)
     r = subprocess.call(line, shell=False, stdout=subprocess.PIPE)
-#    unsignedHex = file(unsignedFile).read()
 
     # Sign the transaction with voting card's wif
-    # tx file wif
     signedFile = unsignedFile.replace('unsigned', 'signed')
     line = ['tx', unsignedFile, wif, '-o', signedFile]
-    print 'sign tx line:', ' '.join(line)
     r = subprocess.call(line, shell=False, stdout=subprocess.PIPE)
 
-    # electrum sendrawtransaction (???) hexHere
-    # or use blockchain.info -- since we're used to that ;) scary idea tho!
-    # result = result.
-    line = ['electrum', 'broadcast', file(signedFile).read()]
-    print 'broadcast line:', ' '.join(line)
-# TODO: uncomment this :)
-#    r = subprocess.call(line, shell=False, stdout=subprocess.PIPE)
-
-    # if anything other than a positive message comes back, cannot vote!
-    positiveResult = True
-    if not positiveResult:
+    try:
+        if not broadcast(file(signedFile).read()):
+            return render(request, 'vote-card-already-used.html')
+    except BlockChainDown:
         return render(request, 'voting-invalid.html')
 
     # Step 4: mark the voting card as used.

@@ -1,0 +1,19 @@
+{% extends '__base.html' %}
+
+{% block title %}Already Voted{% endblock %}
+
+{% block content %}
+<h1>Voting Card Already Used</h1>
+
+<div>
+    <p>
+        The voting card you scanned was already used to place a vote, so thank you for
+        voting! If you believe this is an error, you should know that voting cards can
+        only be used once for a single vote.
+    </p>
+
+    <p>If you meant to scan a different card, you can always:</p>
+    {% include 'divs/try-again.html' %}
+</div>
+
+{% endblock %}
