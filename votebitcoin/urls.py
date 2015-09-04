@@ -21,7 +21,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^$', 'votebitcoin.views.vote'),
+    url(r'^$', 'votebitcoin.views.vote', name='vote'),
     url(r'^submit$', 'votebitcoin.views.submit', name='submit-vote'),
 ]
 

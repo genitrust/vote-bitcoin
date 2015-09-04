@@ -1,0 +1,22 @@
+{% extends '__base.html' %}
+
+{% block title %}Voting Error{% endblock %}
+
+{% block content %}
+<h1>Voting Card Not Activated!</h1>
+
+<div>
+    <p>Oh no! We forgot to activate this voting card. Sorry about that :(</p>
+
+    <p>Please give this card back to the individual that gave this to you, and let them know that this voting card was not activated! They will need to replace your voting card with one that has been activated.</p>
+</div>
+
+<div>
+    <form method="get" action="{% url 'vote' %}">
+        <p>Once you get a new card:</p>
+        <p>
+            <button type="submit" class="btn btn-primary btn-lg">Try Again &raquo;</button>
+        </p>
+    </form>
+</div>
+{% endblock %}

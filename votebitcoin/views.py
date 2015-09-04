@@ -17,16 +17,23 @@ def vote(request):
     })
 
 
-def addressPreviouslySpent(address):
+class AddressPreviouslySpent(Exception):
+    pass
+
+
+class AddressEmpty(Exception):
+    pass
+
+
+def auditAddress(address):
     '''
     Audits to see whether or not the address has ever been used for sending
     coins. For our business requirements, a voting card is invalid and cannot
     be used if it had been used in the past to send coins.
 
-    If there's an error, the default value returned is True.
-
-    @param   string
-    @return  bool
+    @param  string
+    @raise  AddressPreviouslySpent
+    @raise  AddressEmpty
     '''
     r = requests.get(
         'https://blockchain.info/address/%s?format=json' % address,
@@ -34,10 +41,21 @@ def addressPreviouslySpent(address):
     )
     totalSent = r.json().get('total_sent', 0)
     try:
+        # if totalSent is not in an expected format, then we'll consider
+        # these coins as already spent.
         int(totalSent)
     except ValueError:
-        return True
-    return totalSent > 0
+        raise AddressPreviouslySpent()
+    if totalSent > 0:
+        raise AddressPreviouslySpent()
+
+    numberTxs = r.json().get('n_tx', 0)
+    try:
+        int(numberTxs)
+    except ValueError:
+        raise AddressEmpty()
+    if numberTxs == 0:
+        raise AddressEmpty()
 
 
 def submit(request):
@@ -65,13 +83,18 @@ def submit(request):
 
     # Step 2: make sure the card has never been used for spending.
     try:
-        if (addressPreviouslySpent(pk)):
-            return render(request, 'voting-invalid.html')
+        auditAddress(pk)
     except ValueError:
         # at this point, if there's a ValueError, then no JSON object was
         # able to be decoded. Block chain must be down, or somehow an invalid
         # bitcoin address was used.
         return render(request, 'voting-try-again.html')
+    except AddressEmpty:
+        # whoops! somewhere, somebody forgot to distribute coins to this card!
+        return render(request, 'vote-card-not-activated.html')
+    except AddressPreviouslySpent:
+        # this voting card is invalid...since the voting credit was removed!
+        return render(request, 'voting-invalid.html')
 
     # Step 3: create, sign, and broadcast the transaction
     environment = (
