@@ -51,6 +51,20 @@ var VoteBitcoin = (function() {
             }   // end if data === 'error decoding' else
         };
 
+        // Step 0: if the video stream was loaded previously, remove it.
+        if (scanTimer !== null) {
+            clearTimeout(scanTimer);
+        }
+        if (scanner !== null) {
+            scanner.stop();
+        }
+
+        // as they may be visible here, also remove div for video stream.
+        $('#voteRedeem').hide();
+        $('#noVideoHelp').hide();
+        $('#picturePanel').show();
+        $('#picturePanel h4').hide();
+
         // Step 1: read QR
         var snapshot = $('#cameraInput').prop('files')[0];
         if (snapshot) {

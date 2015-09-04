@@ -5,10 +5,14 @@ var initSayCheese = function() {
 	var scanner = new SayCheese('#videoPreview', {audio: false});
 
     scanner.on('error', function(error) {
-        $('#videoPanel').hide();
-        $('#noVideoHelp').hide();
-        $('#voteRedeem').hide();
-        $('#picturePanel').show();
+        // only show the picture panel if the voteRedeem (w/ video stream)
+        // is visible to the user.
+        if ($('#voteRedeem').is(':visible')) {
+            $('#videoPanel').hide();
+            $('#noVideoHelp').hide();
+            $('#voteRedeem').hide();
+            $('#picturePanel').show();
+        }
 //        $('#videoPreview').html('<p>Your browser does not support this plugin.</p>');
     });
 
