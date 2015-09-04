@@ -4,3 +4,7 @@
 db.sqlite3
 .DS_Store
 .pycoin_cache
+*.unsigned.tx
+*.signed.tx
+*.unsigned.hex
+*.signed.hex
