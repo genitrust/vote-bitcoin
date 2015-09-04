@@ -137,7 +137,8 @@ def submit(request):
         pk,
         candidateKey,
     )
-    line = ['tx', '-F', '5000', '-i', pk, candidateKey, '-o', unsignedFile]
+    line = ['tx', '-F', settings.VOTE_NETWORK_FEE, '-i', pk, candidateKey,
+        '-o', unsignedFile]
     r = subprocess.call(line, shell=False, stdout=subprocess.PIPE)
 
     # Sign the transaction with voting card's wif
