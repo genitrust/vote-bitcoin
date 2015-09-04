@@ -7,3 +7,4 @@ admin.site.register(Candidate)
 @admin.register(VotingCard)
 class VotingCardAdmin(admin.ModelAdmin):
     search_fields = ['publicKey']
+    readonly_fields = ('candidate',)
