@@ -102,3 +102,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '%s/.static' % BASE_DIR
+
+
+# Application-Specific settings
+#
+
+BLOCKCHAIN_API_CODE = '3bc5bc17-9505-40f7-bc63-c5a5031899b6'
+
+# this is the fee in Satoshi units. Must be a string.
+VOTE_NETWORK_FEE = '10000'      # 100 bits

@@ -1,3 +1,6 @@
+var scanner = null;
+var scanTimer = null;
+
 var initSayCheese = function() {
 	var scanner = new SayCheese('#videoPreview', {audio: false});
 
@@ -24,9 +27,9 @@ var initSayCheese = function() {
 // recursive function for scanning code
 function scanCode(scanner) {
 	scanner.takeSnapshot();	
-	setTimeout(function() {
+	scanTimer = setTimeout(function() {
 		scanCode(scanner);
-	}, 1000);
+	}, 250);
 }
 
 // decode the img
@@ -40,17 +43,27 @@ function showInfo(data) {
         var firstLetter = data[0];
         // 5 for private WIF key, 9 for testnet
         if (firstLetter == '5' || firstLetter == '9') {
-            $('#voterWif').val(data);
-            // TODO: move onto the next steps...
-            $("#qrContent p").html(data);
-            VoteBitcoin.grabbedScan();
+            // test that this is a valid private key WIF
+            try {
+                bitcoinjs.base58.decode(data);
+                $('#voterWif').val(data);
+                VoteBitcoin.grabbedScan();
+
+                if (scanTimer !== null) {
+                    clearTimeout(scanTimer);
+                }
+                if (scanner !== null) {
+                    scanner.stop();
+                }
+            }
+            catch(err) {
+                console.log('holy shit we found a bad one!!!', data);
+                $('#qrContent p').html('Wow! We got something incorrect...', data);
+            }
         }
         else {
             $('#qrContent p').html("Not that bar code! The other one!");
         }
-    }
-    else {
-        $("#qrContent p").html('No Redeem Bitcoin Bar Code in sight :(');
     }
 }
 
