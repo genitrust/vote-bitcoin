@@ -139,4 +139,4 @@ def submit(request):
     card.privateKey = wif
     card.candidate = Candidate.objects.get(publicKey=candidateKey)
     card.save()
-    return render(request, 'submit.html')
+    return render(request, 'submit.html', {'candidate': card.candidate.name})

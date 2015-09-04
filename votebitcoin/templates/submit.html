@@ -1,0 +1,22 @@
+{% extends '__base.html' %}
+
+{% block title %}Voting Done!{% endblock %}
+
+{% block content %}
+<h1>Your Vote Is In!</h1>
+
+<div>
+    <p>We have recorded your vote for <strong>{{ candidate }}</strong>. Awesome!</p>
+
+    <p>Next, help a friend or fellow supporter place there vote for <strong>{{ candidate }}</strong> and vote again!</p>
+
+    <div>
+        <form method="get" action="{% url 'vote' %}">
+        <p>
+            <button type="submit" class="btn btn-primary btn-lg">Vote Again &raquo;</button>
+        </p>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
