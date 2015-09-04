@@ -12,11 +12,8 @@
 </div>
 
 <div>
-    <form method="get" action="{% url 'vote' %}">
-        <p>Once you get a new card:</p>
-        <p>
-            <button type="submit" class="btn btn-primary btn-lg">Try Again &raquo;</button>
-        </p>
-    </form>
+    <p>Once you get a new card:</p>
+    {% include 'divs/try-again.html' %}
 </div>
+
 {% endblock %}
