@@ -73,7 +73,7 @@ class Command(BaseCommand):
         #))
         environment = (
                   ('PYCOIN_CACHE_DIR', '~/.pycoin_cache'),
-                  ('PYCOIN_SERVICE_PROVIDERS', 'BLOCKR_IO:BITEASY:BLOCKEXPLORER'),
+                  ('PYCOIN_SERVICE_PROVIDERS', 'BLOCKR_IO:BLOCKCHAIN_INFO:BITEASY:BLOCKEXPLORER'),
                )
         for (k, v) in environment:
             os.putenv(k, v)
